@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For น้ำอ้อย 🤍</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Prompt',sans-serif}
+body{
+background:linear-gradient(135deg,#fff5f7,#ffe3ec);
+color:#444;
+overflow:hidden;
+}
+
+/* ===================== */
+.section{position:absolute;width:100%;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;transition:0.6s ease;}
+.hidden{opacity:0;pointer-events:none;}
+
+/* ===================== */
+h1{font-weight:600;margin-bottom:20px}
+p{max-width:420px}
+
+/* ===================== Buttons */
+button{padding:12px 25px;border:none;border-radius:30px;background:#ff6b9d;color:white;font-size:16px;cursor:pointer;transition:0.3s;box-shadow:0 5px 15px rgba(255,107,157,0.3);}
+button:hover{transform:scale(1.05)}
+
+/* ===================== Input */
+input{padding:12px;border-radius:12px;border:1px solid #ddd;text-align:center;width:180px;font-size:18px;letter-spacing:5px;}
+
+/* ===================== Shake */
+@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-5px)}100%{transform:translateX(0)}}
+
+/* ===================== Glow */
+.glow{box-shadow:0 0 20px rgba(255,107,157,0.8);}
+
+/* ===================== Hearts animation */
+.heart{position:absolute;bottom:-20px;font-size:20px;animation:floatUp 3s linear forwards;opacity:0.8;}
+@keyframes floatUp{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-110vh);opacity:0}}
+
+/* ===================== 3D Box */
+#box{width:200px;height:200px;transform-style:preserve-3d;animation:boxIntro 1.8s ease;}
+@keyframes boxIntro{0%{transform:rotateY(0deg) scale(0.8)}50%{transform:rotateY(180deg) scale(1.1)}100%{transform:rotateY(360deg) scale(1)}}
+
+/* ===================== Typewriter */
+#typed{font-size:28px;font-weight:600;letter-spacing:2px;}
+
+/* ===================== Final sparkle */
+@keyframes sparkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.05)}}
+.sparkle{animation:sparkle 1.5s ease infinite;}
+
+</style>
+</head>
+<body>
+
+<!-- LOCK (กล่อง 3D) -->
+<div class="section" id="lock">
+<div id="box">
+<svg width="200" height="200" viewBox="0 0 100 100">
+<rect x="10" y="30" width="80" height="60" fill="#ff6b9d"></rect>
+<rect x="10" y="30" width="80" height="15" fill="#ff3e6c"></rect>
+<line x1="10" y1="30" x2="90" y2="30" stroke="#fff" stroke-width="2"/>
+</svg>
+</div>
+<h1>🔐 ใส่รหัส 6 หลัก</h1>
+<p>เพื่อเปิดกล่องความรักของเรา 🤍</p>
+<input type="password" id="passcode" maxlength="6" placeholder="______">
+<br><br>
+<button onclick="checkPass()">เปิดกล่อง 🤍</button>
+<p id="error" style="color:#ff3e6c;margin-top:10px;"></p>
+</div>
+
+<!-- Welcome -->
+<div class="section hidden" id="welcome">
+<h1 id="typed"></h1>
+<p class="small">ผ่านด่านมาได้ แสดงว่ารักเค้าจริง 🥹</p>
+<br>
+<button onclick="next('timeline')">เข้าไปดูความลับของเรา</button>
+</div>
+
+<!-- Timeline -->
+<div class="section hidden" id="timeline">
+<h1>2 ปี กับเธอ</h1>
+<p id="days"></p>
+<p class="small">เราเริ่มต้นเมื่อ 18/04/2026</p>
+<br>
+<button onclick="next('cards')">ต่อเลย</button>
+</div>
+
+<!-- Cards -->
+<div class="section hidden" id="cards">
+<h1>เหตุผลที่เค้าแพ้เธอ</h1>
+<div class="card-container" id="cardBox"></div>
+<br>
+<button onclick="next('game')">ยังไม่หมดนะ</button>
+</div>
+
+<!-- Game -->
+<div class="section hidden" id="game">
+<h1>ถ้าเลือกได้ 1 อย่าง</h1>
+<button id="runaway">เลิกกับเค้า 💔</button>
+<br><br>
+<button onclick="next('final')">รักเค้าตลอดไป 💖</button>
+</div>
+
+<!-- Final -->
+<div class="section hidden" id="final">
+<h1 class="sparkle">Happy Valentine’s Day 🤍</h1>
+<p>
+2 ปีที่ผ่านมา ขอบคุณที่อยู่ข้างเค้าเสมอ<br>
+ขอบคุณที่รักเค้าในวันที่เค้าไม่น่ารัก<br><br>
+เค้ารักเธอมากกว่าที่เธอคิดนะ น้ำอ้อย
+</p>
+<br>
+<button onclick="playMusic()">เปิดเพลงของเรา 🎵</button>
+<div id="music"></div>
+</div>
+
+<script>
+// 🎯 Lock & Hearts
+function checkPass(){
+let input=document.getElementById("passcode");
+let code=input.value;
+
+if(code==="280418"){
+input.classList.add("glow");
+startHearts();
+setTimeout(()=>{animateText()},1200);
+setTimeout(()=>{next('welcome')},2600);
+}else{
+document.getElementById("error").innerText="รหัสไม่ถูกต้องนะ 😳";
+input.style.animation="shake 0.3s";
+setTimeout(()=>{input.style.animation=""},300);
+}
+}
+
+function startHearts(){
+for(let i=0;i<25;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerText="🤍";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=(15+Math.random()*25)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),3500);
+}
+}
+
+// 🎯 Typewriter
+let nameText="น้ำอ้อย 🤍";
+let idx=0;
+function animateText(){
+let t=document.getElementById("typed");
+let interval=setInterval(()=>{
+t.innerText+=nameText[idx];
+idx++;
+if(idx>=nameText.length) clearInterval(interval);
+},150);
+}
+
+// 🎯 Navigation
+function next(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+}
+
+// 🎯 Days counter
+const start=new Date("2026-04-18");
+const today=new Date();
+const diff=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("days").innerText="เราอยู่ด้วยกันมาแล้ว "+diff+" วัน 🤍";
+
+// 🎯 Cards
+const reasons=[
+"รอยยิ้มของน้ำอ้อย",
+"เวลางอนน่ารักมาก",
+"เป็นเซฟโซนของเค้า",
+"เข้าใจเค้าเสมอ",
+"เสียงหัวเราะของเธอ",
+"ความใส่ใจเล็กๆ",
+"อยู่ด้วยแล้วสบายใจ",
+"เก่งและพยายาม",
+"ดื้อแบบน่ารัก",
+"ทำให้ชีวิตมีสีชมพู"
+];
+reasons.forEach(r=>{
+let card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<div class="card-inner">
+<div class="card-front">💌</div>
+<div class="card-back">${r}</div>
+</div>`;
+card.onclick=()=>card.classList.toggle("flipped");
+document.getElementById("cardBox").appendChild(card);
+});
+
+// 🎯 Runaway button
+const btn=document.getElementById("runaway");
+btn.addEventListener("mouseover",()=>{
+btn.style.position="absolute";
+btn.style.top=Math.random()*75+"%";
+btn.style.left=Math.random()*75+"%";
+});
+
+// 🎯 Play Music
+function playMusic(){
+document.getElementById("music").innerHTML=
+`<iframe width="300" height="170"
+src="https://www.youtube.com/embed/dCEvQ69aGYs?autoplay=1"
+allow="autoplay"></iframe>`;
+}
+
+</script>
+</body>
+</html>
